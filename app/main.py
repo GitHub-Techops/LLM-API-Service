@@ -53,8 +53,11 @@ async def generate(request: PromptRequest):
                 latency_ms=round(latency, 2)
             )
     except Exception as e:
-        logger.error(f"Error calling Ollama API: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Error calling Ollama API: {str(e)}")
+        if isinstance(e, HTTPException):
+            raise  # Re-raise the HTTPException without modification
+        else:
+            logger.error(f"Error calling Ollama API: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Error calling Ollama API: {str(e)}")
 
 @app.get("/health")
 async def health():
