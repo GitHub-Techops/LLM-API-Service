@@ -55,10 +55,6 @@ async def generate(request: PromptRequest):
     except Exception as e:
         if isinstance(e, HTTPException):
             raise  # Re-raise the HTTPException without modification
-        else:
-            logger.error(f"Error calling Ollama API: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"Error calling Ollama API: {str(e)}")
-```
 
 tests\test_api.py
 ```python
