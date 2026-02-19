@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class PromptRequest(BaseModel):
     prompt: str
-    model: str = "deepseek-r1:14b"
+    model: str = "qwen2.5-coder:14b"  # Updated default model
     max_tokens: int = 500
 
 class PromptResponse(BaseModel):
