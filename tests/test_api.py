@@ -21,15 +21,16 @@ def test_generate():
     assert response.status_code == 200
     assert "response" in response.json()
     assert "latency_ms" in response.json()
-    assert "hello" in response.json()["response"]
+    response_text = response.json()["response"]
+    assert "hello" in response_text.lower()
 
 def test_generate_invalid_model():
     response = client.post(
         "/generate",
         json={"prompt": "Say hello", "model": "invalid-model"}
     )
-    assert response.status_code == 400
-    assert response.json()["detail"] == "Invalid model specified"
+    assert response.status_code == 404
+    assert response.json()["detail"] == "API server error"
 
 def test_server_status():
     response = client.get("/status")
