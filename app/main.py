@@ -30,7 +30,7 @@ async def generate(request: PromptRequest):
     start_time = time.time()
     
     try:
-        async with httpx.Async (httpx.AsyncClient(timeout=60.0) as client:
+        async with httpx.AsyncClient(timeout=60.0) as client:
             response = await client.post(
                 "http://localhost:11434/api/generate",
                 json={
@@ -54,15 +54,47 @@ async def generate(request: PromptRequest):
             )
     except Exception as e:
         if isinstance(e, HTTPException):
-            raise  # Re-raise the HTTPException without modification
-        else:
-            logger.error(f"Error calling Ollama API: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"Error calling Ollama API: {str(e)}")
+            raise  ���
+```
 
-@app.get("/health")
-async def health():
-    return {"status": "healthy"}
+tests\test_api.py
+```python
+<<<<<<< SEARCH
+import pytest
+from fastapi.testclient import TestClient
+from app.main import app
 
-@app.get("/status")
-async def status():
-    return {"status": "running"}
+client = TestClient(app)
+
+def test_root():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "status" in response.json()
+
+def test_health():
+    response = client.get("/health")
+    assert response.status_code == 200
+
+def test_generate():
+    response = client.post(
+        "/generate",
+        json={"prompt": "Say hello", "model": "deepseek-r1:14b"}
+    )
+    assert response.status_code == 200
+    assert "response" in response.json()
+    assert "latency_ms" in response.json()
+    response_text = response.json()["response"]
+    assert "hello" in response_text.lower()
+
+def test_generate_invalid_model():
+    response = client.post(
+        "/generate",
+        json={"prompt": "Say hello", "model": "invalid-model"}
+    )
+    assert response.status_code == 404
+    assert response.json()["detail"] == "API server error"
+
+def test_server_status():
+    response = client.get("/status")
+    assert response.status_code == 200
+    assert response.json() == {"status": "running"}
