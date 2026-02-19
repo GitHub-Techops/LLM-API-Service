@@ -11,7 +11,7 @@ def test_root():
 
 def test_health():
     response = client.get("/health")
-    assert response.status = 200
+    assert response.status_code == 200
 
 def test_generate():
     response = client.post(
