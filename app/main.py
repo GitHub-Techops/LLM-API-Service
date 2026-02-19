@@ -2,8 +2,13 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import httpx
 import time
+import logging
 
 app = FastAPI(title="LLM API Service")
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class PromptRequest(BaseModel):
     prompt: str
@@ -24,8 +29,8 @@ async def root():
 async def generate(request: PromptRequest):
     start_time = time.time()
     
-    async with httpx.AsyncClient(timeout=60.0) as client:
-        try:
+    try:
+        async with httpx.AsyncClient(timeout=60.0) as client:
             response = await client.post(
                 "http://localhost:11434/api/generate",
                 json={
@@ -35,9 +40,10 @@ async def generate(request: PromptRequest):
                     "options": {"num_predict": request.max_tokens}
                 }
             )
-            response.raise_for_status()
-            data = response.json()
+            if response.status_code != 200:
+                raise HTTPException(status_code=response.status_code, detail="API server error")
             
+            data = response.json()
             latency = (time.time() - start_time) * 1000
             
             return PromptResponse(
@@ -46,9 +52,14 @@ async def generate(request: PromptRequest):
                 tokens=data.get("eval_count", 0),
                 latency_ms=round(latency, 2)
             )
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+    except Exception as e:
+        logger.error(f"Error calling Ollama API: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error calling Ollama API: {str(e)}")
 
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
+
+@app.get("/status")
+async def status():
+    return {"status": "running"}
