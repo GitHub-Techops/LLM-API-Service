@@ -1,1 +1,2 @@
-.aider*
+# Ignore chroma_db folder
+/chroma_db/
