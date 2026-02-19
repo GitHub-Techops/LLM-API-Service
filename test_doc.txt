@@ -1,0 +1,18 @@
+
+        DevOps is a set of practices that combines software development (Dev) 
+        and IT operations (Ops). It aims to shorten the systems development 
+        life cycle and provide continuous delivery with high software quality.
+        
+        Key DevOps practices include:
+        - Continuous Integration (CI): Automatically testing code changes
+        - Continuous Delivery (CD): Automating deployment pipelines
+        - Infrastructure as Code (IaC): Managing infrastructure through code
+        - Monitoring and Logging: Tracking system performance
+        - Collaboration: Breaking down silos between teams
+        
+        Popular DevOps tools include Jenkins, GitLab, Docker, Kubernetes, 
+        Terraform, Ansible, Prometheus, and Grafana.
+        
+        DevOps helps organizations deliver applications faster while 
+        maintaining high quality and reliability.
+        
