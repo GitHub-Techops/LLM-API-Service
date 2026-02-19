@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class PromptRequest(BaseModel):
     prompt: str
-    model: str = "deepseek-r1:8b"
+    model: str = "deepseek-r1:14b"
     max_tokens: int = 500
 
 class PromptResponse(BaseModel):
@@ -30,7 +30,7 @@ async def generate(request: PromptRequest):
     start_time = time.time()
     
     try:
-        async with httpx.AsyncClient(timeout=60.0) as client:
+        async with httpx.Async (httpx.AsyncClient(timeout=60.0) as client:
             response = await client.post(
                 "http://localhost:11434/api/generate",
                 json={
