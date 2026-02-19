@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class PromptRequest(BaseModel):
     prompt: str
-    model: str = "llama3.2:1b"
+    model: str = "deepseek-r1:8b"
     max_tokens: int = 500
 
 class PromptResponse(BaseModel):

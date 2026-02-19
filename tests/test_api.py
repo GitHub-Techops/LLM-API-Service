@@ -16,7 +16,7 @@ def test_health():
 def test_generate():
     response = client.post(
         "/generate",
-        json={"prompt": "Say hello", "model": "llama3.2:1b"}
+        json={"prompt": "Say hello", "model": "deepseek-r1:8b"}
     )
     assert response.status_code == 200
     assert "response" in response.json()
