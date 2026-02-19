@@ -5,7 +5,7 @@ FastAPI wrapper for Ollama LLMs.
 ## Setup
 ```bash
 pip install -r requirements.txt
-ollama pull llama3.2:1b
+ollama pull deepseek-r1:8b
 ```
 
 ## Run
