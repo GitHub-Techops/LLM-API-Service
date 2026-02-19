@@ -56,9 +56,6 @@ async def generate(request: PromptRequest):
         if isinstance(e, HTTPException):
             raise  # Re-raise the HTTPException without modification
 
-tests\test_api.py
-```python
-<<<<<<< SEARCH
 import pytest
 from fastapi.testclient import TestClient
 from app.main import app
